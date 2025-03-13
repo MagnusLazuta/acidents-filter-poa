@@ -1,14 +1,35 @@
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-fun main() {
-    val name = "Kotlin"
-    //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-    // to see how IntelliJ IDEA suggests fixing it.
-    println("Hello, " + name + "!")
+import btreeplus.*
+import btreeplus.BNode
 
-    for (i in 1..5) {
-        //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-        // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-        println("i = $i")
-    }
+fun main() {
+    var tree = BNode(size = 1)
+    var child1 = BNode(size = 1)
+    var child2 = BNode(size = 1)
+
+    tree.keys.add(Key("3", mutableListOf(Pair("C:/21",0))))
+    child1.keys.add(Key("1", mutableListOf(Pair("C:/22",0))))
+    child1.keys.add(Key("2", mutableListOf(Pair("C:/21",0))))
+    child2.keys.add(Key("4", mutableListOf(Pair("C:/21",0))))
+    child2.keys.add(Key("5", mutableListOf(Pair("C:/21",0))))
+
+    tree.children.add(child2)
+    tree.children.add(child1)
+
+    print(tree.children)
+
+    tree.children.sortBy { it.keys[0].key }
+
+    print(tree.children)
+
+
+
+
+//    println(tree.keys)
+//
+//    tree.keys.sortBy { it.key }
+//
+//    println(tree.keys)
+
+
+
 }
