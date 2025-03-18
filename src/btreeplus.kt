@@ -1,11 +1,28 @@
 package btreeplus
 
+class BTree(
+    private val size : Int,
+    private var source : BNode = BNode(size)){
+
+    fun addOnTree(keyValue : String, nameFile : String, position : Int ){
+        source.addOnTree(Key(keyValue, mutableListOf(Pair(nameFile,position))))
+
+        while(source.father != null){
+            source = source.father!!
+        }
+    }
+
+    fun printTree(){
+        source.printTree()
+    }
+}
+
 class BNode(
     private val size : Int,
     private var sheet : Boolean = true,
     private var keys : MutableList<Key> = mutableListOf(),
     private var children : MutableList<BNode> = mutableListOf(),
-    private var father :  BNode? = null
+    internal var father :  BNode? = null
 ){
 
     private fun addKeyOnNode(newKey : Key){
@@ -23,11 +40,11 @@ class BNode(
     //particiona somente quando o numero de chaves > size * 2
     private fun partition(){
         var new_node = BNode(size)
-        var middle = this.keys[size/2]
+        var middle = this.keys[(size/2)+1]
         this.keys.remove(middle)
 
         //passar todas as chaves size/2 maiores para o novo nodo
-        for(i in size/2..this.keys.size - 1){
+        for(i in size/2+1..this.keys.size -1){
             var temp = keys[i]
             new_node.addKeyOnNode(temp)
             keys.remove(temp)
@@ -35,11 +52,12 @@ class BNode(
 
         //se não for uma folha, transfere os filhos
         if(!sheet){
-            for(i in (size/2)..children.size - 1){
+            for(i in children.size/2..children.size - 1){
                 var temp = children[i]
                 new_node.addChildOnNode(temp)
-                children.remove(temp)
+                temp.father = new_node
             }
+            children -= new_node.children
             new_node.sheet = false
         }
 
@@ -48,6 +66,7 @@ class BNode(
             var father = BNode(size)
             this.father = father
             new_node.father = father
+            father.sheet = false
             father.addChildOnNode(this)
             father.addChildOnNode(new_node)
         }
@@ -87,15 +106,15 @@ class BNode(
         }
 
         else{
-            var index = children.size - 1
-            var string_children = children[index].keys[0].keyValue
+            var index = keys.size - 1
+            //var string_children = children[index].keys[0].keyValue
 
-            while(index >= 0 &&  string_children.compareTo(key.keyValue) >= 0){
+            while(index >= 0  &&  keys[index].keyValue.compareTo(key.keyValue) > 0){
                 index--
-                string_children = children[index].keys[0].keyValue
+                //string_children = children[index].keys[0].keyValue
             }
 
-            children[index + 1].addOnTree(key)
+            children[index+1].addOnTree(key)
         }
 
         if(keys.size > size * 2){
@@ -104,6 +123,23 @@ class BNode(
         return
     }
 
+    fun printTree(level : Int = 0){
+        print("\nlevel $level: ")
+        for(i in keys){
+            print("${i.keyValue} ")
+        }
+
+        if(!sheet){
+            for(child in children){
+                child.printTree(level+1)
+            }
+        }
+
+        else{
+            return
+        }
+
+    }
 }
 
 data class Key(val keyValue : String, var values : MutableList<Pair<String, Int>> = mutableListOf()){

@@ -2,33 +2,26 @@ import btreeplus.*
 import btreeplus.BNode
 
 fun main() {
-    var tree = BNode(size = 1)
-    var child1 = BNode(size = 1)
-    var child2 = BNode(size = 1)
 
-    tree.keys.add(Key("3", mutableListOf(Pair("C:/21",0))))
-    child1.keys.add(Key("1", mutableListOf(Pair("C:/22",0))))
-    child1.keys.add(Key("2", mutableListOf(Pair("C:/21",0))))
-    child2.keys.add(Key("4", mutableListOf(Pair("C:/21",0))))
-    child2.keys.add(Key("5", mutableListOf(Pair("C:/21",0))))
+    var tree = BTree(1)
+    var option = -1
 
-    tree.children.add(child2)
-    tree.children.add(child1)
+    while(option != 0){
+        println("""
+                Escolha uma das alternativas abaixo: 
+                1 - insere uma key nova;
+                2 - printa a arvore;
+                3 - saia do programa.
+                """)
 
-    print(tree.children)
+        option = readln().toInt()
+        when(option){
+            1 -> tree.addOnTree(readln(), "file.h", 0)
+            2 -> tree.printTree()
+            3 -> option = 0
+        }
 
-    tree.children.sortBy { it.keys[0].key }
-
-    print(tree.children)
-
-
-
-
-//    println(tree.keys)
-//
-//    tree.keys.sortBy { it.key }
-//
-//    println(tree.keys)
+    }
 
 
 
