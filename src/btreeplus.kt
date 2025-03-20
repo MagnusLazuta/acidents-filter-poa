@@ -15,6 +15,12 @@ class BTree(
     fun printTree(){
         source.printTree()
     }
+
+    fun findOnTree(keyValue : String) : Key?{
+        var key : Key? = source.findOnNode(keyValue)
+
+        return key
+    }
 }
 
 class BNode(
@@ -139,6 +145,28 @@ class BNode(
             return
         }
 
+    }
+
+    fun findOnNode(keyValue : String) : Key?{
+        var key = this.keys.find {it.keyValue == keyValue}
+
+        if(key == null){
+            if(sheet){
+                return null
+            }
+
+            else{
+                var index = keys.size - 1
+
+                while(index >= 0  &&  keys[index].keyValue.compareTo(keyValue) > 0){
+                    index--
+                }
+
+                return children[index+1].findOnNode(keyValue)
+            }
+        }
+
+        return key
     }
 }
 
