@@ -168,6 +168,17 @@ class BNode(
 
         return key
     }
+
+    fun removeOnKey(keyValue : String){
+        //Caso 1 for uma folha e tiver mais de 50% da ocupação
+
+        //Caso 2 se o elemento não estiver numa folha, transformo numa exclusão de folhas (pega sempre o seu antecessor)
+
+        //Caso 3 se a folha tiver menos de 50% mas a chave da página irmã tem uma chave a mais
+
+        //Caso 4 se a folha ficar com menos de 50% de ocupação e as páginas irmãs não tem chaves para ceder
+
+    }
 }
 
 data class Key(val keyValue : String, var values : MutableList<Pair<String, Int>> = mutableListOf()){
